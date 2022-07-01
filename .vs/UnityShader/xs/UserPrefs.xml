@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{3E5A8264-4680-1C46-5969-241AB98CDC0A}|">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Shader/Gibuli style.shader">
+    <Files>
+      <File FileName="Assets/Shader/BackgroundMove.shader" Line="1" Column="1" />
+      <File FileName="Assets/Shader/Gibuli style.shader" Line="22" Column="28" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="UnityShader" expanded="True" selected="True" />
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="Unity" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.Analytics PreferredExecutionTarget="95d9deee-c659-44d6-870b-bf4931dd4892" />
+</Properties>
