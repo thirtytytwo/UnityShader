@@ -4,50 +4,57 @@ Shader "Custom/Gibuli style"
     {
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
-        _Glossiness ("Smoothness", Range(0,1)) = 0.5
-        _Metallic ("Metallic", Range(0,1)) = 0.0
+        _RampTex("Ramp Tex",2D) = "white"{}
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
-        LOD 200
+        Tags{
+            "RenderPipeline"="UniversalPipeline"
+            "RenderType" = "Opaque"
+        }
+        
+        HLSLINCLUDE
 
-        CGPROGRAM
-        // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard fullforwardshadows
+        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+        #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
 
-        // Use shader model 3.0 target, to get nicer looking lighting
-        #pragma target 3.0
-
-        sampler2D _MainTex;
-
-        struct Input
-        {
-            float2 uv_MainTex;
+        struct Atrributes{
+            float4 positionOS : POSITION;
+            float3 normalOS : NORMAL;
+            float4 tangentOS :TANGENT;
+            float2 uv :TEXCOORD0;
         };
 
-        half _Glossiness;
-        half _Metallic;
-        fixed4 _Color;
+        struct Varyings{
+            float4 positionCS : SV_POSITION;
+            float3 positionWS : POSITION_WS;
+            float2 uv : TEXCOORD0;
+            float3 normalWS : NORMAL_WS;
+            float4 tangenWS : TANGENT_WS;
+        };
+        
+        TEXTURE2D(_RampTex);
+        SAMPLER(sampler_RampTex);
 
-        // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-        // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-        // #pragma instancing_options assumeuniformscaling
-        UNITY_INSTANCING_BUFFER_START(Props)
-            // put more per-instance properties here
-        UNITY_INSTANCING_BUFFER_END(Props)
+        ENDHLSL
 
-        void surf (Input IN, inout SurfaceOutputStandard o)
-        {
-            // Albedo comes from a texture tinted by color
-            fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-            o.Albedo = c.rgb;
-            // Metallic and smoothness come from slider variables
-            o.Metallic = _Metallic;
-            o.Smoothness = _Glossiness;
-            o.Alpha = c.a;
+        pass{
+            Name "ForwardUnlit"
+            Tags{
+                "LightMode" = "UniversalForward"
+            }
+
+            HLSLPROGRAM
+
+            #pragma vertex vert
+            #pragma fragment frag
+
+            Varyings vert(Atrributes input){
+
+            }
+            ENDHLSL
         }
-        ENDCG
     }
     FallBack "Diffuse"
 }
