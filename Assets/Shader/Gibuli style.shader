@@ -5,6 +5,7 @@ Shader "Custom/Gibuli style"
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _RampTex("Ramp Tex",2D) = "white"{}
+        _BumpTex("normal map",2D) = "white"{}
     }
     SubShader
     {
@@ -51,7 +52,23 @@ Shader "Custom/Gibuli style"
             #pragma fragment frag
 
             Varyings vert(Atrributes input){
+                const VertexPositionInputs vertexPosition = GetVertexPositionInputs(input.positionOS.xyz);
+                const VertexNormalInputs vertexNormal = GetVertexNormalInputs(input.normalOS,input.tangenOS);
+                half sign = input.tangentOS.w * GetOddNegativeScale();
 
+                Varyings output;
+                output.uv = TRANSFORM_TEX(input.uv, _MainTex);
+                output.positionCS = vertexPosition.positionCS;
+                output.positionWS = vertexPosition.positionWS;
+                output.normalWS = vertexNormal.normalWS;
+                output.tangentWS = half4(vertexNormal.tangentWS,sign);
+
+                return output;
+            }
+
+            fixed4 frag(Varyings v) : SV_TARGET{
+                fixed3 positionWS = v.positionWS;
+                fixed3 normalTS = UnpackNormalScale(SAMPLE_TEXTURE2D())
             }
             ENDHLSL
         }
